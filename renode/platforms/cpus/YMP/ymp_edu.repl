@@ -1,0 +1,40 @@
+scr1: CPU.RiscV32 @ sysbus
+    cpuType: "rv32gc"
+    hartId: 8
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+core8_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+        address: 0x01200000; 
+        cpu: scr1 
+    }     
+    size: 0xF00000 
+
+sram0: Memory.MappedMemory @ sysbus 0x02000000
+    size: 0x80000
+
+clint: IRQControllers.CoreLevelInterruptor  @ sysbus 0xfffffffff0000000
+    frequency: 1000000
+    numberOfTargets: 9
+    [0, 1] -> scr1@[3, 7]
+
+plic: IRQControllers.PlatformLevelInterruptController @ sysbus 0xffffffffe8000000
+    0 -> scr1@11
+    numberOfSources: 220
+    numberOfContexts: 17
+    prioritiesEnabled : false
+ 
+uart0: UART.SiFive_UART @ sysbus 0x1e140000
+    IRQ -> plic@60
+
+gpio_1: GPIOPort.MMI_elct_RC32 @ sysbus 0x01123020
+
+spi_m: SPI.HiFive_SPI @ sysbus 0xffffffffe0000000
+
+spi_s: SPI.HiFive_SPI @ sysbus 0xffffffffe4000000
+
+gpio_0: GPIOPort.SiFive_GPIO @ sysbus 0xffffffffd8000000
+
+uart_1: UART.SiFive_UART @ sysbus 0xffffffffd4000000
+
+i2c0: I2C.Cadence_I2C @ sysbus 0xffffffffd0000000

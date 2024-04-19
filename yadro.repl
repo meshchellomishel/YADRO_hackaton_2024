@@ -1,0 +1,18 @@
+core1: CPU.RiscV32 @ sysbus
+    cpuType: "rv32gc"
+    hartId: 0
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: empty
+
+
+sram0: Memory.MappedMemory @ sysbus 0x00000000
+    size: 0xF000000
+
+
+cosim: Verilated.VerilatedUART @ sysbus <0xe0000000, +0x100>
+    limitBuffer: 10000
+    frequency: 10000000
+    address: "127.0.0.1"
+    IRQ -> core1@12
+
+console: YADRO.MMI_YADRO_RC32 @ sysbus 0xf0000000

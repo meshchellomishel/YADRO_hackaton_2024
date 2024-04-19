@@ -1,0 +1,201 @@
+scr9_0: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gc"
+    hartId: 0
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+scr9_1: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gcv"
+    hartId: 1
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+scr9_2: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gc"
+    hartId: 2
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+scr9_3: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gc"
+    hartId: 3
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+scr9_4: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gc"
+    hartId: 4
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+scr9_5: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gcv"
+    hartId: 5
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+scr9_6: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gc"
+    hartId: 6
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+scr9_7: CPU.RiscV64 @ sysbus
+    cpuType: "rv64gc"
+    hartId: 7
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+    
+scr1: CPU.RiscV32 @ sysbus
+    cpuType: "rv32gc"
+    hartId: 8
+    privilegeArchitecture: PrivilegeArchitecture.Priv1_10
+    timeProvider: clint
+
+core8_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+        address: 0x01200000; 
+        cpu: scr1 
+    }     
+    size: 0xF00000 
+
+//core0_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_0 
+//    } 
+//    size: 0xF000
+//
+//core1_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_1 
+//    } 
+//    size: 0xF000
+//
+//core2_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_2 
+//    } 
+//    size: 0xF000
+//
+//core3_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_3 
+//    } 
+//    size: 0xF000
+//
+//core4_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_4 
+//    } 
+//    size: 0xF000
+//
+//core5_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_5 
+//    } 
+//    size: 0xF000
+//
+//core6_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_6 
+//    } 
+//    size: 0xF000
+//
+//core7_mem: Memory.MappedMemory @ sysbus new Bus.BusPointRegistration {
+//        address: 0x2000000; 
+//        cpu: scr9_7 
+//    } 
+//    size: 0xF000
+// debug: Memory.MappedMemory @sysbus 0x0
+//     size: 0x1000
+// 
+sram0: Memory.MappedMemory @ sysbus 0x02000000
+    size: 0x80000
+
+clint: IRQControllers.CoreLevelInterruptor  @ sysbus 0xfffffffff0000000
+    frequency: 1000000
+    numberOfTargets: 9
+    [0, 1] -> scr1@[3, 7]
+    [2, 3] -> scr9_0@[3, 7]
+    [4, 5] -> scr9_1@[3, 7]
+    [6, 7] -> scr9_2@[3, 7]
+    [8, 9] -> scr9_3@[3, 7]
+    [10, 11] -> scr9_4@[3, 7]
+    [12, 13] -> scr9_5@[3, 7]
+    [14, 15] -> scr9_6@[3, 7]
+    [16, 17] -> scr9_7@[3, 7]
+
+plic: IRQControllers.PlatformLevelInterruptController @ sysbus 0xffffffffe8000000
+    0 -> scr1@11
+    [1,2] -> scr9_0@[11,9]
+    [3,4] -> scr9_1@[11,9]
+    [5,6] -> scr9_2@[11,9]
+    [7,8] -> scr9_3@[11,9]
+    [9,10] -> scr9_4@[11,9]
+    [11,12] -> scr9_5@[11,9]
+    [13,14] -> scr9_6@[11,9]
+    [15,16] -> scr9_7@[11,9]
+    numberOfSources: 220
+    numberOfContexts: 17
+    prioritiesEnabled : false
+ 
+uart0: UART.SiFive_UART @ sysbus 0x1e140000
+    IRQ -> plic@60
+
+//gpr: GPIOPort.YMP_GPR @ sysbus 0x1E008000
+
+// uart1: UART.SiFive_UART @ sysbus 0x10011000
+//     IRQ -> plic@40
+// 
+// pwm0: HiFive_PWM @ sysbus 0x10020000
+//     IRQ -> plic@44
+// 
+// pwm1: HiFive_PWM @ sysbus 0x10021000
+//     IRQ -> plic@48
+// 
+// i2c1: I2C.OpenCoresI2C @ sysbus 0x10030000
+//     // our model does not support interrupts yet, but if it did:
+//     // IRQ -> plic@52
+// 
+// i2c2: I2C.OpenCoresI2C @ sysbus 0x10031000
+// 
+// qspi0: SPI.HiFive_SPI @ sysbus 0x10040000
+//     IRQ -> plic@41
+//     numberOfSupportedSlaves: 1
+// 
+// qspi1: SPI.HiFive_SPI @ sysbus 0x10041000
+//     IRQ -> plic@42
+//     numberOfSupportedSlaves: 4
+// 
+// qspi2: SPI.HiFive_SPI @ sysbus 0x10050000
+//     IRQ -> plic@43
+//     numberOfSupportedSlaves: 1
+// 
+gpio: GPIOPort.MMI_elct_RC @ sysbus 0x10003000
+gpio_1: GPIOPort.MMI_elct_RC32 @ sysbus 0x01123020
+// 
+// ethernet: Network.CadenceGEM @ sysbus 0x10090000
+//     moduleRevision: 0x0109
+//     moduleId: 0x1007
+//     IRQ -> plic@55
+// 
+// phy: Network.EthernetPhysicalLayer @ ethernet 0
+//     Id1: 0x0141
+//     Id2: 0x0e40
+//     BasicStatus: 0x62A4
+//     AutoNegotiationAdvertisement: 0x1e1
+//     AutoNegotiationLinkPartnerBasePageAbility: 0x1e1
+//     MasterSlaveControl: 0x300
+//     MasterSlaveStatus: 0x3000
+// 
+// l2Cache: Memory.MappedMemory @ sysbus 0x08000000
+//     size: 0x200000
+// 
+// ddr: Memory.MappedMemory @ sysbus 0x80000000
+//     size: 0x200000000
+// 
+// sysbus:
+//     init:
+//         Tag <0x10000004 0x4> "PRCI:core_pllcfg"   0xFFFFFFFF
+//         Tag <0x1000000C 0x4> "PRCI:ddr_pllcfg"    0xFFFFFFFF
+//         Tag <0x10000050 0x4> "PRCI:hfpclk_pllcfg" 0xFFFFFFFF
+// 

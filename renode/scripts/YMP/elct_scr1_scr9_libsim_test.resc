@@ -1,0 +1,30 @@
+$name?="elct"
+
+using sysbus
+mach create $name
+machine LoadPlatformDescription @elct_heterogeneous.repl
+
+#showAnalyzer uart0
+
+$bin_32?=@./binaries/ram_32.elf
+$bin_64?=@./binaries/ram_64.elf
+
+macro reset
+"""
+    sysbus LoadELF $bin_32 TRUE TRUE scr1
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_0
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_1
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_2
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_3
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_4
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_5
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_6
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_7
+"""
+#gpr SimulationFilePath @/home/daniil/renode/renode_cosim_example/native_library/libcosim_native.so
+runMacro $reset
+
+
+#start
+
+#quit

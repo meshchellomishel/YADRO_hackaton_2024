@@ -1,0 +1,9 @@
+default:
+  tags:
+    - sys_prog
+
+include:
+  - project: Sys_prog/ci
+    ref: main
+    file: run_tests.yaml
+

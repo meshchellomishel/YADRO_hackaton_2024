@@ -1,0 +1,19 @@
+$name?="ymp"
+
+using sysbus
+mach create $name
+machine LoadPlatformDescription @./platforms/cpus/YMP/ymp_edu.repl
+
+#showAnalyzer uart0
+
+$bin_32?=@./binaries/helloworld_32.elf
+
+macro reset
+"""
+    sysbus LoadELF $bin_32 TRUE TRUE scr1
+"""
+runMacro $reset
+
+start
+
+#quit

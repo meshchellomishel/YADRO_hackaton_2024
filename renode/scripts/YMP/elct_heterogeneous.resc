@@ -1,0 +1,50 @@
+$name?="elct"
+
+using sysbus
+mach create $name
+machine LoadPlatformDescription @elct_heterogeneous.repl
+
+#showAnalyzer uart0
+
+$bin_32?=@/home/daniil/renode/renode/ram_32.elf
+$bin_64?=@/home/daniil/renode/renode/ram_64.elf
+
+macro reset
+"""
+    sysbus LoadELF $bin_32 TRUE TRUE scr1
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_0
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_1
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_2
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_3
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_4
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_5
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_6
+    sysbus LoadELF $bin_64 TRUE TRUE scr9_7
+"""
+#gpr SimulationFilePath @/home/daniil/renode/renode_cosim_example/native_library/libcosim_native.so
+runMacro $reset
+
+#scr9_0 CreateExecutionTracing "tracer0" @trace0.log Disassembly
+#scr9_4 CreateExecutionTracing "tracer4" @trace4.log Disassembly
+
+#mmi AddAfterWriteQuadWordHook 8 "Antmicro.Renode.Core.Machine.Pause(self.GetMachine())"
+#dpi AddAfterWriteQuadWordHook 0xc0003008 "Antmicro.Renode.Core.Machine.Pause(self.GetMachine())"
+#sysbus AddWatchpointHook 0x10003008 8 Write "Antmicro.Renode.Core.Machine.Pause(self.GetMachine())"
+#scr9_0   AddHook 0x10003008 "Antmicro.Renode.Core.Machine.Pause(self.GetMachine())"
+#scr9_4   AddHook 0x10003008 "Antmicro.Renode.Core.Machine.Pause(self.GetMachine())"
+#gpio AddAfterWriteQuadWordHook 8 "Antmicro.Renode.Core.Machine.Pause(self.GetMachine())"
+logLevel -1
+scr1 CreateExecutionTracing "tracer_name_scr1" @with_scr1.log Disassembly
+scr9_0 CreateExecutionTracing "tracer_name_scr9_0" @with_scr9_0.log Disassembly
+scr9_1 CreateExecutionTracing "tracer_name_scr9_1" @with_scr9_1.log Disassembly
+scr9_2 CreateExecutionTracing "tracer_name_scr9_2" @with_scr9_2.log Disassembly
+scr9_3 CreateExecutionTracing "tracer_name_scr9_3" @with_scr9_3.log Disassembly
+scr9_4 CreateExecutionTracing "tracer_name_scr9_4" @with_scr9_4.log Disassembly
+scr9_5 CreateExecutionTracing "tracer_name_scr9_5" @with_scr9_5.log Disassembly
+scr9_6 CreateExecutionTracing "tracer_name_scr9_6" @with_scr9_6.log Disassembly
+scr9_7 CreateExecutionTracing "tracer_name_scr9_7" @with_scr9_7.log Disassembly
+
+
+#start
+
+#quit
