@@ -3,7 +3,7 @@
 module sim;
   parameter int unsigned ApbDataWidth = 32;
   parameter int unsigned ApbAddrWidth = 32;
-  parameter int unsigned InterruptsCount = 2; // zero irq is ignored
+  parameter int unsigned InterruptsCount = 4; // zero irq is ignored
   parameter int ClockPeriod = 100;
   parameter int ReceiverPort = 0;
   parameter int SenderPort = 0;
@@ -22,7 +22,8 @@ module sim;
 
   renode_apb3_if #(
     .AddressWidth(ApbAddrWidth), 
-    .DataWidth(ApbDataWidth)
+    .DataWidth(ApbDataWidth),
+    .InterruptCount(InterruptsCount)
   ) apb (clk);
 
   renode_apb3_requester renode_apb3_requester (
@@ -67,7 +68,7 @@ module sim;
     .PSLVERR(apb.pslverr),
     .rx_i(),
     .tx_o(),
-    .event_o()
+    .event_o(apb.perror)
 );
 
 endmodule

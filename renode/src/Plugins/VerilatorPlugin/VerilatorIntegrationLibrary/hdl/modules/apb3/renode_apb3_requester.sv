@@ -11,6 +11,7 @@ module renode_apb3_requester (
 );
   typedef logic [bus.AddressWidth-1:0] address_t;
   typedef logic [bus.DataWidth-1:0] data_t;
+  typedef logic [bus.InterruptCount-1:0] error_t;
 
   // Renaming the bus is a style preference
   wire clk;
@@ -27,12 +28,14 @@ module renode_apb3_requester (
   logic     pready;
   data_t    prdata;
   logic     pslverr;
+  error_t   perror;
 
   assign bus.paddr = paddr;
   assign bus.pselx = pselx;
   assign bus.penable = penable;
   assign bus.pwrite = pwrite;
   assign bus.pwdata = pwdata;
+  assign bus.perror = perror;
 
   assign pready = bus.pready;
   assign prdata = bus.prdata;
@@ -210,4 +213,3 @@ module renode_apb3_requester (
 
 
 endmodule
-
