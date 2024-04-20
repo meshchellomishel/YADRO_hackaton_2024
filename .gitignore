@@ -8,3 +8,15 @@
 **.o
 logs
 sim.vcd
+renode/renode-test
+renode/renode-test
+renode/output/tests/log.html
+renode/tests/__pycache__/tests_engine.cpython-38.pyc
+.gitignore
+renode/output/tests/log.html
+renode/output/tests/report.html
+renode/output/tests/robot_output.xml
+renode/tests/__pycache__/helper.cpython-38.pyc
+renode/tests/__pycache__/nunit_tests_provider.cpython-38.pyc
+renode/tests/__pycache__/robot_output_formatter_verbose.cpython-38.pyc
+renode/tests/__pycache__/robot_tests_provider.cpython-38.pyc

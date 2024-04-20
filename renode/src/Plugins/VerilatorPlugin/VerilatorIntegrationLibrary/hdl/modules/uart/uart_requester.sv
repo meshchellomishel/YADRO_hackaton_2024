@@ -6,4 +6,5 @@ module uart_requester (
     input logic rx_i
 );
 
+    
 endmodule
