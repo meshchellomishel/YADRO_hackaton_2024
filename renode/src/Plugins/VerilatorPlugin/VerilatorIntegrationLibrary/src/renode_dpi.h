@@ -17,6 +17,11 @@ extern "C"
   bool renodeDPISend(uint32_t actionId, uint64_t address, uint64_t value);
   bool renodeDPISendToAsync(uint32_t actionId, uint64_t address, uint64_t value);
   void renodeDPILog(int logLevel, const char *data);
+  //dpi uart
+  int uart_tx_is_data_available();
+  int uart_tx_get_data();
+  void uart_rx_new_data(char chr);
+  void uart_init();
 }
 
 #endif

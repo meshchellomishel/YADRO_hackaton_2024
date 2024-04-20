@@ -12,18 +12,19 @@ module sim;
   logic clk = 1;
   logic[InterruptsCount - 1:0] interrupts;
 
+
+
   renode # (
       .BusControllersCount(1),
       .InterruptsCount(InterruptsCount)
   ) renode (
       .clk(clk),
-      .interrupts()
+      .interrupts(interrupts)
   );
 
   renode_apb3_if #(
-    .AddressWidth(ApbAddrWidth), 
-    .DataWidth(ApbDataWidth),
-    .InterruptCount(InterruptsCount)
+    .AddressWidth(ApbAddrWidth),
+    .DataWidth(ApbDataWidth)
   ) apb (clk);
 
   renode_apb3_requester renode_apb3_requester (
@@ -31,12 +32,15 @@ module sim;
       .connection(renode.bus_controller)
   );
 
+  logic requester_input_uart_output;
+  logic requester_output_uart_input;
+
   uart_requester uart_requester (
     .clk(clk),
     .cfg_bus_connection(apb),
-    .communication_bus_connection(),
-    .tx_o(),
-    .rx_i()
+    .communication_bus_connection(renode.uart_controller),
+    .tx_o(requester_output_uart_input),
+    .rx_i(requester_input_uart_output)
   );
 
   initial begin
@@ -53,7 +57,11 @@ module sim;
 
   always #(ClockPeriod / 2) clk = ~clk;
 
+<<<<<<< HEAD
   logic loopback;
+=======
+
+>>>>>>> fedor
 
   apb_uart #(
 
@@ -68,9 +76,15 @@ module sim;
     .PRDATA(apb.prdata),
     .PREADY(apb.pready),
     .PSLVERR(apb.pslverr),
+<<<<<<< HEAD
     .rx_i(loopback),
     .tx_o(loopback),
     .event_o(apb.perror)
+=======
+    .rx_i(requester_output_uart_input),
+    .tx_o(requester_input_uart_output),
+    .event_o()
+>>>>>>> fedor
 );
 
 endmodule

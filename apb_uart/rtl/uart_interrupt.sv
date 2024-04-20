@@ -94,4 +94,3 @@ module uart_interrupt
     assign interrupt_o = iir_q[0] | iir_q[1] | iir_q[2] | iir_q[3];
 
 endmodule
-

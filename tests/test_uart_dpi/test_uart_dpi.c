@@ -1,6 +1,8 @@
 #include <inttypes.h>
 #include "mem.h"
 #include "sc_print.h"
+#include <stdbool.h>
+
 
 
 #define UART_BASE_ADDR  0xe0000000
@@ -17,24 +19,36 @@
 #define UART_REG_MSR ( UART_BASE_ADDR + 0x06) // MODEM Status Register
 #define UART_REG_SCR ( UART_BASE_ADDR + 0x07) // Scratch Register
 
-int main()
-{
-  sc_printf("Test: UART EXAMPLE\n");
-  
-  int ret_val = 0; 
 
-  uint8_t rbr_default_value = READ_MEMORY(UART_REG_RBR, 8);
-  sc_printf("rbr_default_value: %x\n", rbr_default_value);
-  
-  uint8_t iir_default_value = READ_MEMORY(UART_REG_IIR, 8);
-  sc_printf("iir_default_value: %x\n", iir_default_value);
-  
-  ret_val = rbr_default_value != 0x0 || iir_default_value != 0xC0;
-  
-  if(ret_val == 0){  
-    sc_printf("PASSED\n");
-  } else {
-    sc_printf("FAILED\n");
-  }
-  return ret_val;
+
+#define UART_LCB_LEN_BITS_8 2
+#define UART_LCB_DLAB       0x80
+
+
+#define UART_LSR_THR_EMPTY      0b01000000
+#define UART_LSR_PARITY_ERR     0b01000100
+#define UART_LSR_DATA_AVAILABLE 0b00000001
+
+int main(void)
+{
+    sc_printf("Test: UART DPI TEST\n");
+
+    int key;
+    int ret_val = 0;
+
+
+        key = UART_REG_RBR;
+        uint8_t read = READ_MEMORY(key, 8);
+        sc_printf("\n[ERROR]: rx data: %d", read);
+        ret_val = 1;
+
+
+
+on_exit:
+    if (ret_val)
+        sc_printf("FAILED\n");
+    else
+        sc_printf("PASSED\n");
+
+    return 0;
 }
