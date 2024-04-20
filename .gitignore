@@ -2,6 +2,11 @@
 .fleet/
 .idea/
 
+
+renode/tests/__pycache__/
+renode/output/tests/
+all_tests.robot
+
 **/build
 
 .env
