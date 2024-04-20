@@ -12,24 +12,27 @@ module sim;
   logic clk = 1;
   logic[InterruptsCount - 1:0] interrupts;
 
+
+
   renode # (
       .BusControllersCount(1),
       .InterruptsCount(InterruptsCount)
   ) renode (
       .clk(clk),
-      .interrupts()
+      .interrupts(interrupts)
   );
 
   renode_apb3_if #(
-    .AddressWidth(ApbAddrWidth), 
-    .DataWidth(ApbDataWidth),
-    .InterruptCount(InterruptsCount)
+    .AddressWidth(ApbAddrWidth),
+    .DataWidth(ApbDataWidth)
   ) apb (clk);
 
   renode_apb3_requester renode_apb3_requester (
       .bus(apb),
       .connection(renode.bus_controller)
   );
+
+
 
   uart_requester uart_requester (
     .clk(clk),
@@ -53,6 +56,8 @@ module sim;
 
   always #(ClockPeriod / 2) clk = ~clk;
 
+  logic ab;
+
   apb_uart #(
 
   ) dut (
@@ -66,9 +71,9 @@ module sim;
     .PRDATA(apb.prdata),
     .PREADY(apb.pready),
     .PSLVERR(apb.pslverr),
-    .rx_i(),
-    .tx_o(),
-    .event_o(apb.perror)
+    .rx_i(ab),
+    .tx_o(ab),
+    .event_o()
 );
 
 endmodule

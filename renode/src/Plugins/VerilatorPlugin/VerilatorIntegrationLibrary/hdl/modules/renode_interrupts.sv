@@ -40,4 +40,3 @@ module renode_interrupts #(
     end
   end
 endmodule
-
