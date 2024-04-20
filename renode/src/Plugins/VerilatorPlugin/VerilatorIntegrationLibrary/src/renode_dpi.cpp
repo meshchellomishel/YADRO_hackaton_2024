@@ -10,7 +10,7 @@
 
 #include <stdbool.h>
 // #include "/home/fs.studymail/system_verification2024/common/sc_print.h"
-#include "/home/fs.studymail/system_verification2024/common/mem.h"
+#include "../../../../../../../system_verification2024/common/mem.h"
 
 
 
