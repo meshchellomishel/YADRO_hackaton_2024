@@ -114,9 +114,9 @@ package renode_pkg;
     endfunction
 
     function void log(log_level_e log_level, string message);
-`ifdef RENODE_DEBUG
+//`ifdef RENODE_DEBUG
       $display("Renode at %t logs: %s", $realtime, message);
-`endif
+//`endif
       renodeDPILog(log_level, message);
     endfunction
 
