@@ -29,6 +29,23 @@
 #define UART_LSR_PARITY_ERR     0b01000100
 #define UART_LSR_DATA_AVAILABLE 0b00000001
 
+static void init_uart(void)
+{
+    int key;
+
+    /* LCR(rw) */
+    key = UART_REG_LCR;
+    WRITE_MEMORY(key, 8, 3 | 8 | UART_LCB_DLAB);
+
+    /* DLL(rw) */
+    key = UART_REG_DLL;
+    WRITE_MEMORY(key, 8, 10);
+
+    /* LCR(rw) */
+    key = UART_REG_LCR;
+    WRITE_MEMORY(key, 8, 3 | 8);
+}
+
 int main(void)
 {
     sc_printf("Test: UART DPI TEST\n");
@@ -36,11 +53,12 @@ int main(void)
     int key;
     int ret_val = 0;
 
+    init_uart();
 
-        key = UART_REG_RBR;
-        uint8_t read = READ_MEMORY(key, 8);
-        sc_printf("\n[ERROR]: rx data: %d", read);
-        ret_val = 1;
+    key = UART_REG_RBR;
+    uint8_t read = READ_MEMORY(key, 8);
+    sc_printf("\n[ERROR]: rx data: %d", read);
+    ret_val = 1;
 
 
 
