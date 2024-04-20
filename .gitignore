@@ -4,6 +4,10 @@
 
 **/build
 
+renode/tests/__pycache__/
+renode/output/tests/
+all_tests.robot
+
 .env
 **.o
 logs
@@ -12,7 +16,6 @@ renode/renode-test
 renode/renode-test
 renode/output/tests/log.html
 renode/tests/__pycache__/tests_engine.cpython-38.pyc
-.gitignore
 renode/output/tests/log.html
 renode/output/tests/report.html
 renode/output/tests/robot_output.xml
