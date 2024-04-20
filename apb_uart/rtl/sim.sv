@@ -57,11 +57,6 @@ module sim;
 
   always #(ClockPeriod / 2) clk = ~clk;
 
-<<<<<<< HEAD
-  logic loopback;
-=======
-
->>>>>>> fedor
 
   apb_uart #(
 
@@ -76,15 +71,9 @@ module sim;
     .PRDATA(apb.prdata),
     .PREADY(apb.pready),
     .PSLVERR(apb.pslverr),
-<<<<<<< HEAD
-    .rx_i(loopback),
-    .tx_o(loopback),
-    .event_o(apb.perror)
-=======
     .rx_i(requester_output_uart_input),
     .tx_o(requester_input_uart_output),
     .event_o()
->>>>>>> fedor
 );
 
 endmodule
