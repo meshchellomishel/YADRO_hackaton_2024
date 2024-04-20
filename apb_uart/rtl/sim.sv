@@ -32,14 +32,15 @@ module sim;
       .connection(renode.bus_controller)
   );
 
-
+  logic requester_input_uart_output;
+  logic requester_output_uart_input;
 
   uart_requester uart_requester (
     .clk(clk),
     .cfg_bus_connection(apb),
-    .communication_bus_connection(),
-    .tx_o(),
-    .rx_i()
+    .communication_bus_connection(renode.uart_controller),
+    .tx_o(requester_output_uart_input),
+    .rx_i(requester_input_uart_output)
   );
 
   initial begin
@@ -56,7 +57,7 @@ module sim;
 
   always #(ClockPeriod / 2) clk = ~clk;
 
-  logic ab;
+
 
   apb_uart #(
 
@@ -71,8 +72,8 @@ module sim;
     .PRDATA(apb.prdata),
     .PREADY(apb.pready),
     .PSLVERR(apb.pslverr),
-    .rx_i(ab),
-    .tx_o(ab),
+    .rx_i(requester_output_uart_input),
+    .tx_o(requester_input_uart_output),
     .event_o()
 );
 
