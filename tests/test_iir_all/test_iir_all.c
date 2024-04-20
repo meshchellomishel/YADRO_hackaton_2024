@@ -112,6 +112,7 @@ static int wait_iir(int iir_must, uint8_t ier)
     }
 
     if (counter == DEFAULT_COUNTER) {
+        sc_printf("%d, %d, %d, %d\n", iir_must, convert_ier(ier), iir_must & convert_ier(ier), read & UART_IIR_ERR_MASK);
         return read & UART_IIR_ERR_MASK;
     }
 
@@ -146,19 +147,22 @@ static int test_iir(const char *name, uint8_t ier)
     key = UART_REG_THR;
     WRITE_MEMORY(key, 8, write);
 
-    wait_t = wait_lsr(0);
-    if (wait_t != -1) {
-        sc_printf("\t%s: test lsr: tx fifo empty, but THR was writed(LSR: %d, must: %d)\n", name,
-                    wait_t, 0);
-        ret_val = 1;
-    }
+    // Due to flag THR empty is not set only on one moment
+    // we can`t to check it after write to thr
 
-    wait_t = wait_iir(0, ier);
-    if (wait_t != -1) {
-        sc_printf("\t%s: test iir: tx fifo empty, but THR was writed(IIR: %d, must: %d)\n", name,
-                    wait_t, 0);
-        ret_val = 1;
-    }
+    // wait_t = wait_lsr(0);
+    // if (wait_t != -1) {
+    //     sc_printf("\t%s: test lsr: tx fifo empty, but THR was writed(LSR: %d, must: %d)\n", name,
+    //                 wait_t, 0);
+    //     ret_val = 1;
+    // }
+
+    // wait_t = wait_iir(0, ier);
+    // if (wait_t != -1) {
+    //     sc_printf("\t%s: test iir: tx fifo empty, but THR was writed(IIR: %d, must: %d)\n", name,
+    //                 wait_t, 0);
+    //     ret_val = 1;
+    // }
 
     read = 0;
     while (!(read & UART_LSR_DATA_AVAILABLE) || (read & UART_LSR_PARITY_ERR)) {
@@ -172,10 +176,12 @@ static int test_iir(const char *name, uint8_t ier)
         read = READ_MEMORY(UART_REG_LSR, 8);
     }
 
-    wait_t = wait_iir(UART_IIR_DATA_AVAILABLE, ier);
+    // when UART_IER_DATA_AVAILABLE enabled UART_IIR_THR_EMPTY disabled when
+    // rx_data ready
+    wait_t = wait_iir(UART_IIR_DATA_AVAILABLE | UART_IIR_THR_EMPTY, ier);
     if (wait_t != -1) {
-        sc_printf("\t%s: test iir: tx data not available(IIR: %d, must: %d)\n", name,
-                    wait_t, UART_IIR_DATA_AVAILABLE);
+        sc_printf("\t%s: test iir: tx data not available(IIR: %d, must: %d, ier: %d)\n", name,
+                    wait_t, UART_IIR_DATA_AVAILABLE | UART_IIR_THR_EMPTY, convert_ier(ier));
         ret_val = 1;
     }
 
