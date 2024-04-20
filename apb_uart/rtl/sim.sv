@@ -3,7 +3,7 @@
 module sim;
   parameter int unsigned ApbDataWidth = 32;
   parameter int unsigned ApbAddrWidth = 32;
-  parameter int unsigned InterruptsCount = 4; // zero irq is ignored
+  parameter int unsigned InterruptsCount = 1; // zero irq is ignored
   parameter int ClockPeriod = 100;
   parameter int ReceiverPort = 0;
   parameter int SenderPort = 0;
@@ -53,6 +53,8 @@ module sim;
 
   always #(ClockPeriod / 2) clk = ~clk;
 
+  logic loopback;
+
   apb_uart #(
 
   ) dut (
@@ -66,8 +68,8 @@ module sim;
     .PRDATA(apb.prdata),
     .PREADY(apb.pready),
     .PSLVERR(apb.pslverr),
-    .rx_i(),
-    .tx_o(),
+    .rx_i(loopback),
+    .tx_o(loopback),
     .event_o(apb.perror)
 );
 

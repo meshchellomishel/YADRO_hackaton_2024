@@ -8,7 +8,7 @@
 interface renode_apb3_if #(
     int unsigned AddressWidth = 20,
     int unsigned DataWidth = 32,
-    int unsigned InterruptCount = 4
+    int unsigned InterruptCount = 1
 ) (
     input logic pclk
 );
@@ -25,7 +25,6 @@ interface renode_apb3_if #(
   logic     pready;  // Optional for outputs, mandatory for inputs
   data_t    prdata;
   logic     pslverr;  // Optional for outputs, mandatory for inputs
-  error_t   perror;
 
 
   initial begin
