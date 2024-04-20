@@ -14,7 +14,7 @@ interface renode_apb3_if #(
 );
   typedef logic [AddressWidth-1:0] address_t;
   typedef logic [DataWidth-1:0] data_t;
-  typedef logic [InterruptCount-1:0] error_t;
+  typedef logic [InterruptCount-1:0] perror_t;
 
   logic     presetn;
   address_t paddr;
@@ -25,6 +25,7 @@ interface renode_apb3_if #(
   logic     pready;  // Optional for outputs, mandatory for inputs
   data_t    prdata;
   logic     pslverr;  // Optional for outputs, mandatory for inputs
+  perror_t  perror;
 
 
   initial begin
