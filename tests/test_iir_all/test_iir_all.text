@@ -6,6 +6,8 @@ Test_iir_all
     Корректность сброса FCR. После каждого прохода теста с другим параметром IER сбрасывается THR регистр.
     После проверяется статус LSR и IIR функции iir_failed, где учитывается текущий IER.
 
+        Изменение значений wait в счетчике с параметром DEFAULT_COUNTER
+
     [NOIER]     --> IER = 0
     [ALL]       --> IER = 7
     [PARITY]    --> IER = 4
@@ -14,3 +16,8 @@ Test_iir_all
     [DA_PAR]    --> IER = 6
     [TH_PAR]    --> IER = 5
     [DA_THR]    --> IER = 3
+
+    FAILS(maybe bugs?)
+
+        [ALL]: test iir: tx data not available(IIR: 2, must: 6, ier: 7)
+        (по LSR выставлено Data_available, но по IIR значение не изменилось за счетчик DEFAULT_COUNTER)

@@ -13,3 +13,12 @@ Test_perm
         После натройки проверяются чтения и запись во все полях. ([AFTERCONF])
 
         В проверке полей проверяются все биты.
+
+        FAILS(maybe bugs?):
+
+            [INCONFIG]: RBR 			test: (invalid), read1: 0, read2: 1, write: 1
+            (Во время INCONFIG получилось так, что возмоно записать в RBR реситр)
+            [AFTERCONF]: DLM 			test: (invalid), read1: 0, read2: 2, write: 2
+            (Во время AFTERCONF получилось так, что возмоно прочитать из DLM реситра)
+            [AFTERCONF]: FCR(1) 		test: (invalid), read1: 196, read2: 192, write: 2
+            (Изменилось значение реистра FCR после записи(вроде так быть не должно))
