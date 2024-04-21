@@ -39,7 +39,7 @@ static void init_uart(void)
 
     /* DLL(rw) */
     key = UART_REG_DLL;
-    WRITE_MEMORY(key, 8, 10);
+    WRITE_MEMORY(key, 8, 100);
 
     /* LCR(rw) */
     key = UART_REG_LCR;
@@ -55,9 +55,8 @@ int main(void)
 
     init_uart();
 
-    key = UART_REG_RBR;
-    uint8_t read = READ_MEMORY(key, 8);
-    sc_printf("\n[ERROR]: rx data: %d", read);
+    key = UART_REG_THR;
+    WRITE_MEMORY(key, 8, 1);
     ret_val = 1;
 
 
