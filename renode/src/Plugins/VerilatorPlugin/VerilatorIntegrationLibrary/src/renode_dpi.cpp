@@ -7,6 +7,7 @@
 
 #include "renode_dpi.h"
 #include "communication/socket_channel.h"
+#include "string.h"
 
 #include <stdbool.h>
 // #include "/home/fs.studymail/system_verification2024/common/sc_print.h"
@@ -124,6 +125,26 @@ void renodeDPILog(int logLevel, const char* data)
         uint8_t read = 0;
         while (!(read & UART_LSR_DATA_AVAILABLE) || (read & UART_LSR_PARITY_ERR))
         read = READ_MEMORY(UART_REG_LSR, 8);
+    }
+
+    bool uart_dpi_check_a(const char *data)
+    {
+        return !strcmp("Hello,", data);
+    }
+
+    bool uart_dpi_check_b(const char *data)
+    {
+        return !strcmp("World!", data);
+    }
+
+    bool uart_dpi_check_c(const int *data)
+    {
+        for (int i = 0;i < 15;i++) {
+            if (data[i] > 15 || data[i] < 1)
+                return false;
+        }
+
+        return true;
     }
 
     void uart_init()
