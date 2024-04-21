@@ -53,8 +53,8 @@ run_robot: compile_verilator $(TARGET)
 	    --variable SYSBUS_MODULE:$(SYSBUS_MODULE) \
 	    --variable SIMULATION_SCRIPT:$(VERILATED_EXEC) \
 		--variable DEFUALT_TIMEOUT:$(DEFUALT_TIMEOUT)  \
-	    $(root_dir)/yadro.robot && \
-	mv $(root_dir)/logs/coverage.dat $(root_dir)/logs/$(TARGET).dat
+	    $(root_dir)/yadro.robot
+	# mv $(root_dir)/logs/coverage.dat $(root_dir)/logs/$(TARGET).dat
 
 coverage:
 	cd $(root_dir)/logs && \
@@ -113,8 +113,8 @@ run_all: prepare_robot compile_verilator compile_all_tests
 	    --variable SYSBUS_MODULE:$(SYSBUS_MODULE) \
 	    --variable SIMULATION_SCRIPT:$(VERILATED_EXEC) \
 		--variable DEFUALT_TIMEOUT:$(DEFUALT_TIMEOUT)  \
-	    $(root_dir)/all_tests.robot && \
-	mv $(root_dir)/logs/coverage.dat $(root_dir)/logs/all_tests.dat
+	    $(root_dir)/all_tests.robot
+	# mv $(root_dir)/logs/coverage.dat $(root_dir)/logs/all_tests.dat
 
 # build rtl model
 build_verilator:
