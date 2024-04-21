@@ -1,0 +1,5 @@
+Test_loopback
+
+    Проверка на loopback.
+
+    Отправка значения на THR, сравнение с RBR.

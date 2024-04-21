@@ -45,7 +45,7 @@ static void init_apb()
 
 int main(void)
 {
-    sc_printf("Test: XMIT TEST\n");
+    sc_printf("Test: LOOPBACK TEST\n");
 
     int key;
     int ret_val = 0;
