@@ -25,6 +25,7 @@ interface renode_apb3_if #(
   logic     pready;  // Optional for outputs, mandatory for inputs
   data_t    prdata;
   logic     pslverr;  // Optional for outputs, mandatory for inputs
+  error_t   perror;
 
 
   initial begin

@@ -73,7 +73,7 @@ module sim;
     .PSLVERR(apb.pslverr),
     .rx_i(requester_output_uart_input),
     .tx_o(requester_input_uart_output),
-    .event_o()
+    .event_o(apb.perror)
 );
 
 endmodule

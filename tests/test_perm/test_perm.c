@@ -57,20 +57,10 @@ static int test_all(const char *name)
     key = UART_REG_IER;
     ret_val += print(name, "IER(0)", key, true, 1);
     ret_val += print(name, "IER(1)", key, true, 2);
-
-    if (!print(name, "IER(2)", key, true, 4)) {
-        key = UART_REG_IIR;
-        uint8_t iir = READ_MEMORY(key, 8);
-        // if (iir != 1) {
-        //     sc_printf("IIR failed %d\n", iir);
-        //     ret_val += 1;
-        // }
-    } else {
-        ret_val += 1;
-    }
+    ret_val += print(name, "IER(2)", key, true, 4);
 
 
-    /* FCR(rw) */
+    /* FCR(w) */
     key = UART_REG_FCR;
     ret_val += print(name, "FCR(1)", key, false, 2);
     ret_val += print(name, "FCR(2)", key, false, 4);
