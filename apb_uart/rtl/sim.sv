@@ -3,7 +3,7 @@
 module sim;
   parameter int unsigned ApbDataWidth = 32;
   parameter int unsigned ApbAddrWidth = 32;
-  parameter int unsigned InterruptsCount = 4; // zero irq is ignored
+  parameter int unsigned InterruptsCount = 1; // zero irq is ignored
   parameter int ClockPeriod = 100;
   parameter int ReceiverPort = 0;
   parameter int SenderPort = 0;
@@ -56,7 +56,6 @@ module sim;
   end
 
   always #(ClockPeriod / 2) clk = ~clk;
-
 
 
   apb_uart #(

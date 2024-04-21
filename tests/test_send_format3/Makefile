@@ -1,8 +1,8 @@
-TEST_NAME := test_priv
+TEST_NAME := test_send_format3
 
 src_dir := $(dir $(lastword $(MAKEFILE_LIST)))
 
-c_src := sc_print.c test_priv.c
+c_src := sc_print.c test_send_format3.c
 
 include $(inc_dir)/common.mk
 
